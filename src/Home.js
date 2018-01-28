@@ -204,7 +204,7 @@ class TodoList extends Component {
         console.log("Value : " + value);
         console.log("Image : " + image);
         console.log("Add Article called");
-        axios.post('http://localhost:8080/api/v1/wishlist', {
+        axios.post('https://dfce89de.ngrok.io/api/v1/wishlist', {
             id: id,
             suggestion: value,
             image: image
