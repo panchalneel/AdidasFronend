@@ -179,7 +179,7 @@ class TodoList extends Component {
         )*/
         return (
             <div className="row">
-                <div className="col umn">{
+                <div className="column">{
                     this.props.products.map((item) => {
                         return (<div className="card" key={item.id}>
                             <img src={item.image} alt="Jane"/>
