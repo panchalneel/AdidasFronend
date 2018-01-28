@@ -204,7 +204,7 @@ class TodoList extends Component {
         console.log("Value : " + value);
         console.log("Image : " + image);
         console.log("Add Article called");
-        axios.post('https://dfce89de.ngrok.io/api/v1/wishlist', {
+        axios.post('https://rocky-wave-31345.herokuapp.com/api/v1/wishlist', {
             id: id,
             suggestion: value,
             image: image
@@ -217,7 +217,7 @@ class TodoList extends Component {
 
     removeArticle(e) {
         console.log(e.target.value);
-        axios.delete('https://dfce89de.ngrok.io/api/v1/wishlist/' + e.target.id).then(response => {
+        axios.delete('https://rocky-wave-31345.herokuapp.com/api/v1/wishlist/' + e.target.id).then(response => {
             console.log(response, 'Article deletd!');
         }).catch(err => {
             console.log(err, 'Signature not added, try again');

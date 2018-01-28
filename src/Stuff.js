@@ -10,7 +10,7 @@ class Stuff extends Component {
     }
 
     componentDidMount() {
-        fetch('https://dfce89de.ngrok.io/api/v1/wishlist').then(results => {
+        fetch('https://rocky-wave-31345.herokuapp.com/api/v1/wishlist').then(results => {
             return results.json()
         }).then(results => {
             console.log(results, 'Signature added!');
@@ -130,7 +130,7 @@ class Stuff extends Component {
     removeArticle(id, e) {
         console.log("id : " + id);
 
-        axios.delete('https://dfce89de.ngrok.io/api/v1/wishlist/' + id).then(response => {
+        axios.delete('https://rocky-wave-31345.herokuapp.com/api/v1/wishlist/' + id).then(response => {
             console.log(response, 'Article deletd!');
             /*let result = this.state.wishlist.filter(function(el) {
                 return el.suggestion !== e.target.value;
