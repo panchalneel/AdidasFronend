@@ -1,4 +1,4 @@
-#adidas-wishlist-demo
+# Adidas-wishlist-demo
 
 Steps to run the application
 
