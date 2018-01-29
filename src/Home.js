@@ -1,25 +1,17 @@
 import React, {Component} from "react";
 import axios from 'axios';
 
-class Home extends Component {
-    render() {
-        return (
-            <div>
-                <h2>HELLO</h2>
-                <p>Cras facilisis urna ornare ex volutpat, et
-                    convallis erat elementum. Ut aliquam, ipsum vitae
-                    gravida suscipit, metus dui bibendum est, eget rhoncus nibh
-                    metus nec massa. Maecenas hendrerit laoreet augue
-                    nec molestie. Cum sociis natoque penatibus et magnis
-                    dis parturient montes, nascetur ridiculus mus.</p>
+const BASE_URL = 'https://rocky-wave-31345.herokuapp.com';
+const ADIDAS_URL = "https://www.adidas.co.uk";
 
-                <p>Duis a turpis sed lacus dapibus elementum sed eu lectus.</p>
-            </div>
-        );
-    }
-}
-
-class TodoApp extends Component {
+/**
+ * @author Nil Panchal
+ * @description Default entry level
+ * @desc This class will handel search operation of article
+ * @extends Component
+ *
+ */
+class AdidasHome extends Component {
     constructor(props) {
         super(props);
         this.state = {items: [], text: '', products: []};
@@ -27,9 +19,27 @@ class TodoApp extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     render() {
+        let buttonStyle = {
+            backgroundColor: "#ff8040",
+            position: "absolute",
+            height: "40px",
+            width: "150px",
+            fontSize: "14px",
+            color: "#fff",
+            textAlign: "center",
+            lineHeight: "42px",
+            borderWidth: "0",
+            webkitBorderRadius: "0px 5px 5px 0px",
+            borderRadius: "0px 5px 5px 0px",
+            cursor: "pointer"
+        };
 
+        let searchTextBoxStyle = {
+            height: "40px",
+            width: "325px",
+            fontSize: "25px"
+        };
         return React.createElement(
             'div',
             null,
@@ -44,42 +54,23 @@ class TodoApp extends Component {
                 React.createElement('input', {
                     onChange: this.handleChange,
                     value: this.state.text,
-                    style: {
-                        height: "40px",
-                        width: "325px",
-                        fontSize: "25px"
-                    }
+                    style: searchTextBoxStyle
                 }),
                 React.createElement(
                     'button',
                     {
-                        style: {
-                            backgroundColor: "#ff8040",
-                            position: "absolute",
-                            height: "40px",
-                            width: "150px",
-                            fontSize: "14px",
-                            color: "#fff",
-                            textAlign: "center",
-                            lineHeight: "42px",
-                            borderWidth: "0",
-                            backgroundColor: "#ff8040",
-                            webkitBorderRadius: "0px 5px 5px 0px",
-                            borderRadius: "0px 5px 5px 0px",
-                            cursor: "pointer"
-                        }
+                        style: buttonStyle
                     },
                     'Search Article'
                 )
             ),
-            <br></br>
+            <br/>
             ,
-            React.createElement(TodoList, {items: this.state.items, products: this.state.products})
+            React.createElement(ArticleList, {items: this.state.items, products: this.state.products})
         );
     }
 
     handleChange(e) {
-
         this.setState({text: e.target.value});
     }
 
@@ -90,26 +81,20 @@ class TodoApp extends Component {
         }
 
         let displayDetails;
-        console.log("Search Text : ");
-        console.log(this.state.text);
         const newItem = {
             text: this.state.text,
             id: Math.floor((Math.random() * 10000) + 1),
             displayDetails: ''
         };
-        let allResult = [];
-
-        fetch('https://www.adidas.co.uk/api/suggestions/' + this.state.text).then(results => {
+        fetch(ADIDAS_URL + '/api/suggestions/' + this.state.text).then(results => {
             return results.json();
         }).then(result => {
             console.log("Result : ");
             console.log(result);
-            allResult = result.products;
-            newItem.displayDetails = result;
             displayDetails = result.products.map((obj) => {
                 console.log("Products");
                 console.log(obj);
-                obj.id = Math.floor((Math.random() * 100) + 1);
+                obj.id = Math.floor((Math.random() * 10000) + 1);
                 return obj;
             });
 
@@ -119,64 +104,16 @@ class TodoApp extends Component {
                 products: displayDetails
             }));
         });
-
-
     }
 }
 
-class TodoList extends Component {
+/**
+ * @author Nil Panchal
+ * @description ArticleList will search article using adidas sear API
+ * @extends Component
+ */
+class ArticleList extends Component {
     render() {
-        console.log("products : " + JSON.stringify(this.props.products));
-        let style = {
-            display: "inline-block",
-            margin: "15px",
-            padding: "10px 20px",
-            fontSize: "15px",
-            cursor: "pointer",
-            textAlign: "center",
-            textDecoration: "none",
-            outline: "none",
-            color: "#fff",
-            backgroundColor: "#4CAF50",
-            border: "none",
-            borderRadius: "10px",
-            boxShadow: "0 9px #999"
-        };
-        let row = {
-            content: "",
-            clear: "both",
-            display: "table",
-        }
-        /*return (
-            React.createElement(
-                'div',
-                null,
-                this.props.products.map(item => React.createElement(
-                    'div',
-                    {key: item.id},
-                    React.createElement(
-                        'img',
-                        {src: item.image, alt: item.suggestion, style: {borderRadius: "50%"}}
-                    ),
-                    item.suggestion,
-                    React.createElement(
-                        'button',
-                        {
-                            onClick: this.addArticle, id: item.id, value: item.suggestion,
-                            style: style
-                        },
-                        'Add'
-                    ), React.createElement(
-                        'button',
-                        {
-                            onClick: this.removeArticle, id: item.id, value: item.suggestion,
-                            style: style
-                        },
-                        'Remove'
-                    )
-                    )
-                ))
-        )*/
         return (
             <div className="row">
                 <div className="column">{
@@ -198,32 +135,26 @@ class TodoList extends Component {
         );
     }
 
+    /**
+     * @description To add article in wish list
+     * @param id
+     * @param value
+     * @param image
+     * @param e
+     */
     addArticle(id, value, image, e) {
-
-        console.log("Id : " + id);
-        console.log("Value : " + value);
-        console.log("Image : " + image);
-        console.log("Add Article called");
-        axios.post('https://rocky-wave-31345.herokuapp.com/api/v1/wishlist', {
+        axios.post(BASE_URL + '/api/v1/wishlist', {
             id: id,
             suggestion: value,
             image: image
         }).then(response => {
-            console.log(response, 'Signature added!');
+            console.log(response);
+            alert("Article added successfully");
         }).catch(err => {
-            console.log(err, 'Signature not added, try again');
+            console.log(err, 'Error occur while adding article');
+            alert('Something went wrong. Please try again');
         });
-    }
-
-    removeArticle(e) {
-        console.log(e.target.value);
-        axios.delete('https://rocky-wave-31345.herokuapp.com/api/v1/wishlist/' + e.target.id).then(response => {
-            console.log(response, 'Article deletd!');
-        }).catch(err => {
-            console.log(err, 'Signature not added, try again');
-        });
-        console.log("Remove Article called");
     }
 }
 
-export default TodoApp;
+export default AdidasHome;
