@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from 'axios';
 
-const BASE_URL = 'https://rocky-wave-31345.herokuapp.com';
+const BASE_URL = 'http://localhost:8080';
 
 /**
  * @author Nil Panchal
